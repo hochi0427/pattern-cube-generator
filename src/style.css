@@ -1,0 +1,75 @@
+:root {
+  --bg: #f3ead8;
+  --surface: #fffaf0;
+  --surface-soft: #ebe0cc;
+  --text: #39332c;
+  --text-muted: #756c61;
+  --border: #d8cbb7;
+  --accent: #8c7355;
+  --accent-hover: #735d44;
+  --shadow: 0 14px 30px rgba(93, 72, 47, 0.1);
+  font-family: Georgia, 'Times New Roman', serif;
+  color: var(--text);
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  min-height: 100vh;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font: 16px/1.5 var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+:root {
+  --font-body: 'Avenir Next', Avenir, Helvetica, Arial, sans-serif;
+  --font-display: Georgia, 'Times New Roman', serif;
+}
+
+h2 {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.page { max-width: 1060px; margin: 0 auto; padding: 72px 28px 64px; }
+.intro { text-align: center; margin-bottom: 52px; }
+.eyebrow, .preview-label { color: var(--accent); font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.eyebrow { margin: 0 0 12px; }
+h1 { color: var(--text); font-family: var(--font-display); font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 500; line-height: 1; margin: 0; }
+.subtitle { color: var(--text-muted); font-size: 1.08rem; margin: 18px 0 0; }
+.controls { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; box-shadow: var(--shadow); padding: 34px; text-align: center; }
+.section-heading h2 { margin-top: 4px; }
+.selector { display: flex; gap: 10px; justify-content: center; margin: 24px auto 32px; max-width: 600px; }
+.selector button { background: transparent; border: 1px solid var(--border); border-radius: 10px; color: var(--text-muted); cursor: pointer; flex: 1; font: inherit; font-weight: 700; padding: 14px 18px; transition: background-color .2s, border-color .2s, color .2s; }
+.selector button:hover { border-color: var(--accent); color: var(--accent-hover); }
+.selector button.active { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+button:focus-visible { outline: 3px solid rgba(140, 115, 85, .35); outline-offset: 3px; }
+.layout-preview { background: var(--surface-soft); border-radius: 12px; display: inline-flex; flex-direction: column; min-width: 220px; padding: 16px 28px 22px; }
+.preview-label { margin-bottom: 16px; }
+.cube-layout { display: flex; flex-direction: column; gap: 6px; align-items: center; min-height: 108px; justify-content: center; }
+.cube-row { display: flex; gap: 6px; }
+.preview-cube { background: var(--accent); border: 1px solid var(--accent-hover); border-radius: 5px; display: block; height: clamp(26px, 6vw, 38px); width: clamp(26px, 6vw, 38px); }
+.generate { background: var(--text); border: 0; border-radius: 10px; color: var(--surface); cursor: pointer; display: block; font: inherit; font-weight: 700; margin: 32px auto 0; padding: 16px 34px; transition: background-color .2s, transform .2s; }
+.generate:hover { background: var(--accent-hover); transform: translateY(-1px); }
+.views { border-top: 1px solid var(--border); margin-top: 68px; padding-top: 32px; }
+.views-heading { margin-bottom: 24px; }
+.view-grid { display: grid; gap: 18px; grid-template-columns: repeat(3, 1fr); }
+.view { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; min-height: 230px; padding: 22px; }
+.view h3 { font-family: var(--font-display); font-size: 1.35rem; font-weight: 500; margin: 0; }
+.projection { align-content: center; display: grid; gap: 0; justify-content: center; margin: 0 auto; min-height: 175px; max-width: 100%; overflow: auto; }
+.projection-cell { display: block; height: 32px; object-fit: cover; width: 32px; }
+.front-triangle-top { transform: translateX(16px); }
+.view-placeholder { align-items: center; color: var(--text-muted); display: flex; font-size: .9rem; justify-content: center; min-height: 175px; }
+.instruction { color: var(--text-muted); font-size: .92rem; margin: 30px auto 0; max-width: 600px; text-align: center; }
+@media (max-width: 640px) { .page { padding: 48px 16px; } .controls { padding: 26px 16px; } .selector { gap: 6px; } .selector button { padding: 12px 6px; } .view-grid { grid-template-columns: 1fr; } .view { min-height: 180px; } .view-placeholder { min-height: 120px; } }

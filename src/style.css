@@ -67,9 +67,11 @@ button:focus-visible { outline: 3px solid rgba(140, 115, 85, .35); outline-offse
 .view-grid { display: grid; gap: 18px; grid-template-columns: repeat(3, 1fr); }
 .view { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; min-height: 230px; padding: 22px; }
 .view h3 { font-family: var(--font-display); font-size: 1.35rem; font-weight: 500; margin: 0; }
-.projection { align-content: center; display: grid; gap: 0; justify-content: center; margin: 0 auto; min-height: 175px; max-width: 100%; overflow: auto; }
-.projection-cell { display: block; height: 32px; object-fit: cover; width: 32px; }
-.front-triangle-top { transform: translateX(16px); }
+.view-description { color: var(--text-muted); font-size: .78rem; line-height: 1.4; min-height: 2.8em; margin: 8px 0 0; }
+.projection-stage { display: flex; align-items: center; justify-content: center; min-height: 175px; overflow: auto; }
+.projection { position: relative; flex: none; }
+.projection-cell { position: absolute; overflow: hidden; }
+.projection-cell img { display: block; position: absolute; max-width: none; }
 .view-placeholder { align-items: center; color: var(--text-muted); display: flex; font-size: .9rem; justify-content: center; min-height: 175px; }
 .instruction { color: var(--text-muted); font-size: .92rem; margin: 30px auto 0; max-width: 600px; text-align: center; }
 @media (max-width: 640px) { .page { padding: 48px 16px; } .controls { padding: 26px 16px; } .selector { gap: 6px; } .selector button { padding: 12px 6px; } .view-grid { grid-template-columns: 1fr; } .view { min-height: 180px; } .view-placeholder { min-height: 120px; } }

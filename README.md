@@ -22,7 +22,7 @@ Pattern Cube Game supports the development of:
 
 Instead of learning these concepts only through a screen, children can physically **turn, test, rearrange, and compare** cubes while solving each challenge.
 <p align="center">
-  <img src="./README-assets/physical-cubes.jpg" width="500" alt="Physical Pattern Cubes">
+  <img src="./README-assets/physical-cubes.png" width="500" alt="Physical Pattern Cubes">
 </p>
 <p align="center">
   <i>Physical Pattern Cubes used to reconstruct generated spatial challenges.</i>

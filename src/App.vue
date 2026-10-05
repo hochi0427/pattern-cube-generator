@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import { generateStructure, projectStructure, VIEW_DEFINITIONS } from './lib/cube-model.js'
 import pattern1 from './assets/patterns/pattern-1.svg'
 import pattern2 from './assets/patterns/pattern-2.svg'
@@ -8,8 +8,15 @@ import pattern4 from './assets/patterns/pattern-4.svg'
 import pattern5 from './assets/patterns/pattern-5.svg'
 import pattern6 from './assets/patterns/pattern-6.svg'
 
+if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
+  window.history.scrollRestoration = 'manual'
+}
+
 const cubeCount = ref(3)
 const hasGenerated = ref(false)
+const showBrandIntro = ref(true)
+const showGameIntro = ref(false)
+let brandIntroTimer
 
 const cubeOptions = [3, 6, 9]
 
@@ -28,6 +35,30 @@ const views = computed(() => VIEW_DEFINITIONS.map(definition => ({
 })))
 const selectedPreview = computed(() => previewLayouts[cubeCount.value])
 const cellSize = 48
+
+onMounted(() => {
+  window.scrollTo(0, 0)
+  brandIntroTimer = window.setTimeout(() => {
+    showBrandIntro.value = false
+  }, 1900)
+})
+
+onUnmounted(() => {
+  window.clearTimeout(brandIntroTimer)
+})
+
+function closeGameIntro() {
+  showGameIntro.value = false
+}
+
+function handleModalKeydown(event) {
+  if (event.key === 'Escape' && showGameIntro.value) {
+    closeGameIntro()
+  }
+}
+
+onMounted(() => window.addEventListener('keydown', handleModalKeydown))
+onUnmounted(() => window.removeEventListener('keydown', handleModalKeydown))
 
 function fragmentStyle(cell, projection) {
   return {
@@ -48,9 +79,14 @@ function artworkStyle(cell) {
   }
 }
 
-function generatePuzzle() {
+async function generatePuzzle() {
   cubes.value = generateStructure(cubeCount.value)
   hasGenerated.value = true
+  await nextTick()
+  document.querySelector('.views')?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  })
 }
 
 function selectCubeCount(count) {
@@ -61,11 +97,30 @@ function selectCubeCount(count) {
 </script>
 
 <template>
+  <div v-if="showBrandIntro" class="brand-splash" role="presentation">
+    <div class="brand-splash-content">
+      <svg class="brand-cube-mark brand-cube-mark--splash" viewBox="0 0 72 72" aria-hidden="true">
+        <path class="cube-outline" d="M36 5 65 21.5v29L36 67 7 50.5v-29L36 5Z M7 21.5 36 38l29-16.5M36 38v29" />
+      </svg>
+      <p class="brand-splash-title">PATTERN CUBE GAME</p>
+    </div>
+  </div>
+
   <main class="page">
-    <header class="intro">
-      <p class="eyebrow">Physical puzzle study</p>
-      <h1>Pattern Cube Generator</h1>
-      <p class="subtitle">Build the pattern from three different views.</p>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a class="brand-lockup" href="#top" aria-label="Pattern Cube Game home">
+        <svg class="brand-cube-mark" viewBox="0 0 72 72" aria-hidden="true">
+          <path d="M36 5 65 21.5v29L36 67 7 50.5v-29L36 5Z M7 21.5 36 38l29-16.5M36 38v29" />
+        </svg>
+        <span>Pattern Cube Game</span>
+      </a>
+      <button class="nav-intro-button" type="button" @click="showGameIntro = true">Game Intro</button>
+    </nav>
+
+    <header id="top" class="intro">
+      <p class="eyebrow">A little challenge for curious minds</p>
+      <h1>Cubes ready?</h1>
+      <p class="subtitle">Pick a challenge, generate a pattern, and start building.</p>
     </header>
 
     <section class="controls" aria-labelledby="cube-count-heading">
@@ -135,4 +190,34 @@ function selectCubeCount(count) {
 
     <p class="instruction">Use the three views as clues to recreate the hidden structure with your physical cubes.</p>
   </main>
+
+  <div v-if="showGameIntro" class="modal-backdrop" @click.self="closeGameIntro">
+    <section class="game-modal" role="dialog" aria-modal="true" aria-labelledby="game-modal-title">
+      <button class="modal-close" type="button" aria-label="Close Game Intro" @click="closeGameIntro">×</button>
+      <p class="eyebrow">A hands-on puzzle game</p>
+      <h2 id="game-modal-title">Think. Turn. Build.</h2>
+      <p class="modal-lead">Pattern Cube Game is a hands-on spatial reasoning game designed for children ages 5–8.</p>
+      <p class="modal-body">By turning, testing, and rearranging patterned cubes, children explore shapes, position, rotation, and spatial relationships through physical play.</p>
+
+      <div class="mode-cards">
+        <article class="mode-card">
+          <span class="mode-icon" aria-hidden="true">◷</span>
+          <h3>SPEED</h3>
+          <p>Observe quickly. Build faster.</p>
+        </article>
+        <article class="mode-card">
+          <span class="mode-icon" aria-hidden="true">✳</span>
+          <h3>RANDOM</h3>
+          <p>Adapt to unexpected patterns.</p>
+        </article>
+        <article class="mode-card">
+          <span class="mode-icon" aria-hidden="true">◎</span>
+          <h3>MEMORY</h3>
+          <p>Look, remember, reconstruct.</p>
+        </article>
+      </div>
+
+      <p class="modal-footer">Designed to make spatial thinking visible, tangible, and playful.</p>
+    </section>
+  </div>
 </template>
